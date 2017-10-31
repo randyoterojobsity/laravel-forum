@@ -22,5 +22,28 @@
                 @endforeach
             </div>
         </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                @if(auth()->check())
+                    <h4>Create a reply</h4>
+                    <form method="POST" action="{{ $thread->path().'/replies' }}">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <textarea placeholder="Have something to say?"
+                                      rows="5" name="body" id="body"
+                                      class="form-control">
+                            </textarea>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
+                @else
+                    <p>Please <a href="{{ route('login') }}">log in</a> to participate in this discussion.</p>
+                @endif
+            </div>
+        </div>
+
     </div>
 @endsection
