@@ -10,9 +10,9 @@ class CreateThreadsTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function guests_may_nt_create_threads()
+    public function guests_may_not_create_threads()
     {
-        $thread = factory('App\Thread')->create();
+        $thread = create('App\Thread');
 
         $this->post('/threads', $thread->toArray());
     }
@@ -20,9 +20,9 @@ class CreateThreadsTest extends TestCase
     /** @test */
     public function an_authenticated_user_can_create_new_forum_threads()
     {
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
 
-        $thread = factory('App\Thread')->create();
+        $thread = create('App\Thread');
 
         $this->post('/threads', $thread->toArray());
 
