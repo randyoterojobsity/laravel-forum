@@ -10,6 +10,12 @@ class ParticipateInForumTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
+    function unauthenticated_users_may_not_add_replies()
+    {
+        $this->withExceptionHandling()->post('/threads/channel/1/replies', []);
+    }
+
+    /** @test */
     public function an_authenticated_user_may_participate_in_forum_threads()
     {
         $this->be(create('App\User'));
