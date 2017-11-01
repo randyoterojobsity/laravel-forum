@@ -39,6 +39,10 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/threads">All Threads</a></li>
 
+                    @if (auth()->check())
+                        <li><a href="{{ auth()->user()->path() }}">My Threads</a></li>
+                    @endif
+
                     <li role="presentation" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                            aria-expanded="false">
@@ -55,7 +59,23 @@
                         </ul>
                     </li>
 
-                    @if (!Auth::guest())
+                    <li role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            Authors <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @foreach($users as $user)
+                                @if(count($user->threads) > 0)
+                                    <li>
+                                        <a href="{{ $user->path() }}">{{ $user->name }} {{ count($user->threads) }}</a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </li>
+
+                    @if (auth()->check())
                         <li><a href="/threads/create">New Thread</a></li>
                     @endif
                 </ul>

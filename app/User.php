@@ -35,8 +35,13 @@ class User extends Authenticatable
         return $this->hasMany(Reply::class);
     }
 
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
+
     public function path()
     {
-        return '/user/profile/'.$this->id;
+        return '/threads?by='.$this->name;
     }
 }

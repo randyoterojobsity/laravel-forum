@@ -25,6 +25,11 @@ class ThreadController extends Controller
             $threads = Thread::latest()->get();
         }
 
+        if ($username = request('by')) {
+            $user = \App\User::where('name', $username)->firstOrFail();
+            $threads = Thread::latest()->where('user_id', $user->id)->get();
+        }
+
         return view('threads.index', compact('threads'));
     }
 

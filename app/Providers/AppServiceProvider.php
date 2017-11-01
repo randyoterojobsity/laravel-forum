@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \View::share('channels', \App\Channel::latest()->orderBy('name')->get());
+        \View::composer('*', function ($view) {
+            $view->with('channels', \App\Channel::latest()->orderBy('name')->get());
+            $view->with('users', \App\User::latest()->orderBy('name')->get());
+        });
     }
 
     /**
