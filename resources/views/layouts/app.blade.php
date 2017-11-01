@@ -45,7 +45,7 @@
                             Channels <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            @foreach(App\Channel::all() as $channel)
+                            @foreach($channels as $channel)
                                 @if(count($channel->threads) > 0)
                                     <li>
                                         <a href="/threads/{{ $channel->slug }}">{{ $channel->name }} {{ count($channel->threads) }}</a>
