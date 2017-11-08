@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Channel;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,8 +16,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::composer('*', function ($view) {
-            $view->with('channels', \App\Channel::latest()->orderBy('name')->get());
-            $view->with('users', \App\User::latest()->orderBy('name')->get());
+
+            $channels = \Cache::rememberForever('channels', function () {
+                return Channel::with('threads')->latest()->orderBy('name')->get();
+            });
+
+            $view->with('channels', $channels);
+
+            $users = \Cache::rememberForever('users', function () {
+                return User::with('threads')->latest()->orderBy('name')->get();
+            });
+
+            $view->with('users', $users);
         });
     }
 

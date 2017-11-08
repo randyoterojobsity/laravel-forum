@@ -52,9 +52,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             @foreach($channels as $channel)
-                                @if(count($channel->threads) > 0)
+                                <?php $cant = $channel->threads->count(); ?>
+                                @if($cant > 0)
                                     <li>
-                                        <a href="/threads/{{ $channel->slug }}">{{ $channel->name }} {{ count($channel->threads) }}</a>
+                                        <a href="/threads/{{ $channel->slug }}">{{ $channel->name }} {{ $cant }}</a>
                                     </li>
                                 @endif
                             @endforeach
@@ -68,9 +69,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             @foreach($users as $user)
-                                @if(count($user->threads) > 0)
+                                <?php $cant = $user->threads->count(); ?>
+                                @if($cant > 0)
                                     <li>
-                                        <a href="{{ $user->path() }}">{{ $user->name }} {{ count($user->threads) }}</a>
+                                        <a href="{{ $user->path() }}">{{ $user->name }} {{ $cant }}</a>
                                     </li>
                                 @endif
                             @endforeach
