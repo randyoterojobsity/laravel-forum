@@ -49,6 +49,7 @@ class ReadThreadsTest extends TestCase
         $this->get('threads/'.$channel->slug)->assertSee($threadInChannel->title)->assertDontSee($threadNotInChannel->title);
     }
 
+    /** @test */
     function a_user_can_filter_threads_by_any_user_name()
     {
         $this->signIn(create('App\User', ['name' => 'Randy']));
@@ -58,5 +59,21 @@ class ReadThreadsTest extends TestCase
         $threadNotByRandy = create('App\Thread');
 
         $this->get('threads?by=Randy')->assertSee($threadByRandy->title)->assertDontSee($threadNotByRandy->title);
+    }
+
+    /** @test */
+    function a_user_can_filter_threads_by_popularity()
+    {
+        $threadWithTwoReplies = create('App\Thread');
+        create('App\Reply', ['thread_id' => $threadWithTwoReplies->id], 2);
+
+        $threadWithThreeReplies = create('App\Thread');
+        create('App\Reply', ['thread_id' => $threadWithThreeReplies->id], 3);
+
+        $threadWithoutReplies = $this->thread;
+
+        $response = $this->getJson('threads?popular=1')->json();
+
+        $this->assertEquals([3, 2, 0], array_column($response, 'replies_count'));
     }
 }

@@ -43,6 +43,8 @@
                         <li><a href="{{ auth()->user()->path() }}">My Threads</a></li>
                     @endif
 
+                    <li><a href="/threads?popular=1">Most Popular</a></li>
+
                     <li role="presentation" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                            aria-expanded="false">
